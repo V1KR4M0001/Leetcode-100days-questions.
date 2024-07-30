@@ -51,3 +51,42 @@ public:
         else return false;
     }
 };
+
+// 2nd and more relevant code :=>
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    pair<bool, int> solve(TreeNode* root) {
+        if(!root) return {true, 0};
+        // pair<isBalanced, height>
+        pair<bool, int> l=solve(root->left);
+        pair<bool, int> r=solve(root->right);
+        // calculation at some particular node
+        pair<bool, int> ans;
+        int height=max(l.second, r.second)+1;
+        bool isBalanced;
+        if(abs(l.second-r.second)<=1 && l.first==true && r.first==true) {
+            isBalanced = true;
+        } else {
+            isBalanced = false;
+        }
+        ans.first=isBalanced;
+        ans.second=height;
+        return ans;
+    }
+    bool isBalanced(TreeNode* root) {
+        pair<bool, int> ans=solve(root);
+        return ans.first;
+    }
+};
